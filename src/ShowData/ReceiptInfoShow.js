@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { Layout, Menu, Breadcrumb } from 'antd';
-import TableBooking from '../Table/TableBooking';
+import { Link } from 'react-router-dom';
+import TableReceipt from '../Table/TablePayment'
 import '../css/CustomerInfoShow.css'
 
 const { Header, Content, Footer } = Layout;
 
-class CustomerInfoShow extends Component {
+class ReceiptInfoShow extends Component {
 
     render() {
         return (
@@ -17,7 +17,7 @@ class CustomerInfoShow extends Component {
                         <Menu
                             theme="dark"
                             mode="horizontal"
-                            defaultSelectedKeys={['1']}
+                            defaultSelectedKeys={['2']}
                             style={{ lineHeight: '64px' }}
                         >
                             <Menu.Item key="1"><Link to='/'>ข้อมูลการจอง</Link></Menu.Item>
@@ -29,7 +29,7 @@ class CustomerInfoShow extends Component {
                         </Menu>
                     </Header>
                     <Content style={{ padding: '0 50px' }}>
-                        <div style={{ background: '#fff', padding: 24, height: 650 }}><TableBooking /></div>
+                        <div style={{ background: '#fff', padding: 24, height: 650 }}><TableReceipt /></div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>FaangFang Resort</Footer>
                 </Layout>
@@ -38,4 +38,4 @@ class CustomerInfoShow extends Component {
     }
 }
 
-export default CustomerInfoShow
+export default ReceiptInfoShow
