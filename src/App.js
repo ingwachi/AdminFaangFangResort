@@ -3,19 +3,18 @@ import logo from './logo.svg';
 import './App.css';
 
 
-import TableStatus from './admin/TableStatus';
-import TableHistory from './admin/TableHistory';
-import TableBooking from './admin/TableBooking';
-import TableCheckIn from './admin/TableCheckIn';
-import TablePayment from './admin/TablePayment';
-import FinishBooking from './FinishBooking';
-import FinishPayment from './FinishPayment'
-import Confirm from './Confirm';
+import TableStatus from './Table/TableStatus';
+import TableHistory from './Table/TableHistory';
+import TableBooking from './Table/TableBooking';
+import TableCheckIn from './Table/TableCheckIn';
+import TablePayment from './Table/TablePayment';
+
+import CustomerInfoShow from './ShowData/CustomerInfoShow';
 
 function App() {
   return (
     <div className="App">
-      <div>status</div>
+      {/* <div>status</div>
        <TableStatus/>
       <div>history</div>
       <TableHistory/> 
@@ -24,8 +23,8 @@ function App() {
       <div>Booking</div>
       <TableBooking/>
       <div>Check In</div>
-      <TableCheckIn/>
-      {/* <FinishPayment/> */}
+      <TableCheckIn/> */}
+      <CustomerInfoShow/>
     </div>
   );
 }

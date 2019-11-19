@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import "antd/dist/antd.css";
 
 import { Form, Select, Table, Modal, Button, Icon } from 'antd';
-import firebase from '../firebase';
+import firebase from '../FireBase/firebase';
 import axios from 'axios';
 
 const { confirm } = Modal;

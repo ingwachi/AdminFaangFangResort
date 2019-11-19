@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import firebase from '../firebase'
+import firebase from '../FireBase/firebase'
 import 'antd/dist/antd.css';
 import { Form, Table, Tag, Spin, TreeSelect, InputNumber, Select, Popconfirm, Modal, message } from 'antd';
 import axios from 'axios';

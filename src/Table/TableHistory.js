@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import "antd/dist/antd.css";
-import { storage } from '../firebase';
+import { storage } from '../FireBase/firebase';
 import { Form, Select, Table, Modal, Button, Icon, message } from 'antd';
-import firebase from '../firebase';
+import firebase from '../FireBase/firebase';
 import axios from 'axios';
 const { Option } = Select;
 const { confirm } = Modal;
