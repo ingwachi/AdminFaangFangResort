@@ -11,7 +11,7 @@ class HistoryInfoShow extends Component {
     render() {
         return (
             <div>
-                <Layout className="layout" style={{fontFamily: "Kanit, sans-serif"}}>
+                <Layout className="layout" style={{ fontFamily: "Kanit, sans-serif" }}>
                     <Header>
                         <div className="logo" />
                         <Menu
@@ -20,16 +20,16 @@ class HistoryInfoShow extends Component {
                             defaultSelectedKeys={['4']}
                             style={{ lineHeight: '64px' }}
                         >
-                           <Menu.Item key="1"><Link to='/'>ข้อมูลการจอง</Link></Menu.Item>
+                            <Menu.Item key="1"><Link to='/'>ข้อมูลการจอง</Link></Menu.Item>
                             <Menu.Item key="2"><Link to='/ReceiptInfoShow'>ตรวจสอบการโอนเงิน</Link></Menu.Item>
                             <Menu.Item key="3"><Link to='/CheckInInfoShow'>ข้อมูลการเข้าพัก</Link></Menu.Item>
                             <Menu.Item key="4"><Link to='/HistoryInfoShow'>ประวัติลูกค้า</Link></Menu.Item>
-                            <Menu.Item key="5"><Link to='/HistoryInfoShow'>สถานะของลูกค้า</Link></Menu.Item>
+                            <Menu.Item key="5"><Link to='/StatusRecShow'>สถานะของลูกค้า</Link></Menu.Item>
                             <Menu.Item key="6">แก้ไขข้อมูลห้องพัก</Menu.Item>
                         </Menu>
                     </Header>
                     <Content style={{ padding: '0 50px' }}>
-                        <div style={{ background: '#fff', padding: 24, height: 650 }}><TableHistory/></div>
+                        <div style={{ background: '#fff', padding: 24, height: 650 }}><TableHistory /></div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>FaangFang Resort</Footer>
                 </Layout>

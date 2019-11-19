@@ -11,7 +11,7 @@ class ReceiptInfoShow extends Component {
     render() {
         return (
             <div>
-                <Layout className="layout" style={{fontFamily: "Kanit, sans-serif"}}>
+                <Layout className="layout" style={{ fontFamily: "Kanit, sans-serif" }}>
                     <Header>
                         <div className="logo" />
                         <Menu
@@ -24,7 +24,7 @@ class ReceiptInfoShow extends Component {
                             <Menu.Item key="2"><Link to='/ReceiptInfoShow'>ตรวจสอบการโอนเงิน</Link></Menu.Item>
                             <Menu.Item key="3"><Link to='/CheckInInfoShow'>ข้อมูลการเข้าพัก</Link></Menu.Item>
                             <Menu.Item key="4"><Link to='/HistoryInfoShow'>ประวัติลูกค้า</Link></Menu.Item>
-                            <Menu.Item key="5"><Link to='/HistoryInfoShow'>สถานะของลูกค้า</Link></Menu.Item>
+                            <Menu.Item key="5"><Link to='/StatusRecShow'>สถานะของลูกค้า</Link></Menu.Item>
                             <Menu.Item key="6">แก้ไขข้อมูลห้องพัก</Menu.Item>
                         </Menu>
                     </Header>
