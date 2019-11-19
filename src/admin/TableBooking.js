@@ -24,6 +24,7 @@ class TableBooking extends React.Component {
         var str = ""
 
         const phoneNum = element.phoneNum;
+        const id = element.id
         if (element.reserveA > 0) {
           str += '  [บ้านเดี่ยวหลังใหญ่ ' + element.reserveA + ' ห้อง]  ';
         }
@@ -54,19 +55,21 @@ class TableBooking extends React.Component {
           details: str
         }
         const details = str;
-        axios.put(`/updateDetails/${phoneNum}`, ({ details }))
+        axios.put(`/updateDetailsById/${id}`, ({ details }))
         wholeData.push(temp);
       });
       this.setState({ allData: wholeData });
     })
     console.log(wholeData)
   }
+
   success = () => {
     message
       .loading('Action in progress..', 2)
       .then(() => message.success('กำลังบันทึก', 2))
       .then(() => message.info('Loading finished is finished'));
   };
+
   onChangeSelect = (value, record) => {
     confirm({
       title: 'ยืนยันการเปลี่ยนแปลง​ ?',
@@ -75,20 +78,22 @@ class TableBooking extends React.Component {
         return new Promise((resolve, reject) => {
           const phoneNum = record.phoneNum;
           const status = value;
+          const id = record.id;
           if (value === "ไม่เข้าพัก") {
             //axios.put(`/updateStatusRec/${phoneNum}`, ({ status }))
-            axios.get(`/findCustomerByPhone/${phoneNum}`).then(resp => {
+            axios.get(`/findCustomerById/${id}`).then(resp => {
               console.log(resp);
+              const id = resp.data.id
               const name = resp.data.name;
               const phoneNum = resp.data.phoneNum;
               const dateCheckIn = resp.data.dateCheckIn;
               const dateCheckOut = resp.data.dateCheckOut;
               const { assignRoom } = this.state;
-              axios.post('/AddHistory', ({ name, phoneNum, status, dateCheckIn, dateCheckOut, assignRoom }))
+              axios.post('/AddHistory', ({ id, name, phoneNum, status, dateCheckIn, dateCheckOut, assignRoom }))
             });
-            axios.delete(`/deleteReceiptInfoByPhone/${phoneNum}`)
-            axios.delete(`/deleteStatusInfoByPhone/${phoneNum}`)
-            axios.delete(`/deleteCustomerByPhone/${phoneNum}`).then(resp => {
+            axios.delete(`/deleteReceiptInfoById/${id}`)
+            axios.delete(`/deleteStatusInfoById/${id}`)
+            axios.delete(`/deleteCustomerById/${id}`).then(resp => {
               if (resp.status === 200) {
                 resolve();
                 this.success();
@@ -101,18 +106,6 @@ class TableBooking extends React.Component {
             })
 
           }
-          // const tmpAllData = this.state.allData;
-          // tmpAllData.map(element => {
-          //     if(element.name === record.name) {
-          //         element.status = value
-          //     }
-          //     return element
-          // })
-          // this.setState({allData: tmpAllData})
-          // const phoneNum = record.phoneNum;
-          // const status = value;
-
-
         }).catch((e) => console.log('ERROR', e));
       },
       onCancel: () => {
@@ -123,7 +116,7 @@ class TableBooking extends React.Component {
   render() {
 
     const columns = [
-      { title: 'Id', dataIndex: 'id', key: 'Id' },
+      { title: 'Customer Id', dataIndex: 'id', key: 'Id' },
       { title: 'Name', dataIndex: 'name', key: '0' },
       { title: 'Tell', dataIndex: 'phoneNum', key: '1' },
       { title: 'Email', dataIndex: 'email', key: 'Email' },

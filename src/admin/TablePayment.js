@@ -108,9 +108,10 @@ class TablePayment extends React.Component {
               const dateCheckIn = resp.data.dateCheckIn;
               const dateCheckOut = resp.data.dateCheckOut;
               const { assignRoom } = this.state;
-              axios.post('/AddHistory', ({id, name, phoneNum, status, dateCheckIn, dateCheckOut, assignRoom }))
+              axios.post('/AddHistory', ({id, name, phoneNum, dateCheckIn, dateCheckOut, status, assignRoom }))
             });
             axios.delete(`/deleteReceiptInfoById/${id}`)
+            axios.delete(`/deleteStatusInfoById/${id}`)
             axios.delete(`/deleteCustomerById/${id}`).then(resp => {
               if (resp.status === 200) {
                 resolve();
@@ -175,7 +176,7 @@ class TablePayment extends React.Component {
 
   render() {
     const columns = [
-      { title: 'Id', dataIndex: 'id', key: 'Id'},
+      { title: 'Customer Id', dataIndex: 'id', key: 'Id' },
       { title: 'Name', dataIndex: 'name', key: 'Name' },
       { title: 'Tell', dataIndex: 'phoneNum', key: 'Tell' },
       { title: 'จำนวนเงินที่โอน', dataIndex: 'price', key: 'Price' },

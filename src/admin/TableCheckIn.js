@@ -4,7 +4,6 @@ import { storage } from '../firebase';
 import { Form, Select, Table, Modal, TreeSelect, Icon, Spin, Button, message } from 'antd';
 import firebase from '../firebase';
 import axios from 'axios';
-import { thisExpression } from '@babel/types';
 const { SHOW_PARENT } = TreeSelect;
 const { Option, OptGroup } = Select;
 const { confirm } = Modal;
@@ -97,8 +96,8 @@ class TableCheckIn extends React.Component {
               const assignRoom = resp.data.assignRoom;
 
               axios.post('/AddHistory', ({ id, name, phoneNum, dateCheckIn, dateCheckOut, status, assignRoom }))
+              axios.delete(`/deleteCheckInInfoById/${id}`, ({ status }))
             })
-            axios.delete(`/deleteCheckInInfoById/${id}`, ({ status }))
             axios.delete(`/deleteStatusInfoById/${id}`, ({ status })).then(resp => {
               console.log(resp);
               if (resp.status === 200) {
@@ -141,11 +140,12 @@ class TableCheckIn extends React.Component {
       onOk: () => {
         this.success();
         const phoneNum = record.phoneNum;
+        const id = record.id
         console.log(record.phoneNum)
-        axios.get(`/findCheckInInfoByPhoneNum/${phoneNum}`).then(resp => {
+        axios.get(`/findCheckInInfoById/${id}`).then(resp => {
           let assignRoomx = resp.data.assignRoom;
           let assignRoom = assignRoomx + this.state.assignRoomm;
-          axios.put(`/updateAssignRoom/${phoneNum}`, ({ assignRoom }))
+          axios.put(`/updateAssignRoomById/${id}`, ({ assignRoom }))
           window.location.reload()
         });
       },
@@ -161,7 +161,7 @@ class TableCheckIn extends React.Component {
   render() {
     const { size } = this.state;
     const columns = [
-      { title: 'Id', dataIndex: 'id', key: 'Id' },
+      { title: 'Customer Id', dataIndex: 'id', key: 'Id' },
       { title: 'Name', dataIndex: 'name', key: 'Name' },
       { title: 'Tell', dataIndex: 'phoneNum', key: 'Tell' },
       { title: 'Email', dataIndex: 'email', key: 'email' },

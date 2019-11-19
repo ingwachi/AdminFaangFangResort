@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import "antd/dist/antd.css";
 
-import { Form, Select, Table, Modal } from 'antd';
+import { Form, Select, Table, Modal, Button, Icon } from 'antd';
 import firebase from '../firebase';
 import axios from 'axios';
+
+const { confirm } = Modal;
 class TableStatus extends React.Component {
   constructor(props) {
     super(props);
@@ -29,13 +31,37 @@ class TableStatus extends React.Component {
     })
     console.log(wholeData)
   }
-  
+
+  onSubmit = (value, record) => {
+    const phoneNum = record.phoneNum
+    const id = record.id
+    confirm({
+      title: 'ยืนยันการเปลี่ยนแปลง​',
+      content: '',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk: () => {
+        axios.delete(`/deleteStatusInfoById/${id}`)
+        window.location.reload()
+      },
+      onCancel: () => {
+      }
+    })
+  }
+
   render() {
     const columns = [
-      { title: 'Id', dataIndex: 'id', key: 'Id'},
+      { title: 'Customer Id', dataIndex: 'id', key: 'Id' },
       { title: 'Name', dataIndex: 'name', key: 'Name' },
       { title: 'Tell', dataIndex: 'phoneNum', key: 'Tell' },
-    { title: 'Status', dataIndex: 'status', key: 'status' },
+      { title: 'Status', dataIndex: 'status', key: 'status' },
+      {
+        title: 'ลบข้อมูล',
+        key: 'delete',
+        render: (record) =>
+          <Button onClick={(value) => this.onSubmit(value, record)}><Icon type="delete" style={{ fontSize: '20px' }} /></Button>
+      }
     ];
 
     return (

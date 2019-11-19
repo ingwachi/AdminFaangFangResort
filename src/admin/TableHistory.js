@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "antd/dist/antd.css";
 import { storage } from '../firebase';
-import { Form, Select, Table, Modal, Button, Icon } from 'antd';
+import { Form, Select, Table, Modal, Button, Icon, message } from 'antd';
 import firebase from '../firebase';
 import axios from 'axios';
 const { Option } = Select;
@@ -39,6 +39,7 @@ class TableHistory extends React.Component {
 
   onSubmit = (value, record) => {
     const phoneNum = record.phoneNum
+    const id = record.id
     confirm({
       title: 'ยืนยันการเปลี่ยนแปลง​',
       content: '',
@@ -46,8 +47,18 @@ class TableHistory extends React.Component {
       okType: 'danger',
       cancelText: 'No',
       onOk: () => {
-        axios.delete(`/deleteHistoryInfoByPhone/${phoneNum}`)
-        window.location.reload()
+        axios.delete(`/deleteHistoryInfoById/${id}`).then(resp => {
+          if (resp.status === 200) {
+            message
+            .loading('Action in progress..', 2)
+            .then(() => message.success('กำลังบันทึก', 2))
+  
+            setTimeout(function () {
+              window.location.reload()
+            },1000)
+          }
+        })
+        
       },
       onCancel: () => {
       }
@@ -56,7 +67,7 @@ class TableHistory extends React.Component {
 
   render() {
     const columns = [
-      { title: 'Id', dataIndex: 'id', key: 'Id'},
+      { title: 'Customer Id', dataIndex: 'id', key: 'Id' },
       { title: 'Name', dataIndex: 'name', key: 'Name' },
       { title: 'Tell', dataIndex: 'phoneNum', key: 'Tell' },
       { title: 'วันที่เช็คอิน', dataIndex: 'dateCheckIn', key: 'dateCheckIn' },
