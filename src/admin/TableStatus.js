@@ -18,6 +18,7 @@ class TableStatus extends React.Component {
     axios.get('/findAllStatus').then(resp => {
       resp.data.forEach(element => {
         var temp = {
+          id: element.id,
           name: element.name,
           phoneNum: element.phoneNum,
           status: element.status,
@@ -31,6 +32,7 @@ class TableStatus extends React.Component {
   
   render() {
     const columns = [
+      { title: 'Id', dataIndex: 'id', key: 'Id'},
       { title: 'Name', dataIndex: 'name', key: 'Name' },
       { title: 'Tell', dataIndex: 'phoneNum', key: 'Tell' },
     { title: 'Status', dataIndex: 'status', key: 'status' },

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "antd/dist/antd.css";
 import { storage } from '../firebase';
-import { Form, Select, Table, Modal, TreeSelect, Icon, Spin, Button,message } from 'antd';
+import { Form, Select, Table, Modal, TreeSelect, Icon, Spin, Button, message } from 'antd';
 import firebase from '../firebase';
 import axios from 'axios';
 import { thisExpression } from '@babel/types';
@@ -30,6 +30,7 @@ class TableCheckIn extends React.Component {
         this.setState({ assignRoomm: element.assignRoom })
         console.log(this.state.assignRoomm)
         var temp = {
+          id: element.id,
           name: element.name,
           phoneNum: element.phoneNum,
           email: element.email,
@@ -72,22 +73,22 @@ class TableCheckIn extends React.Component {
   }
   success = () => {
     message
-      .loading('กำลังบันทึกข้อมูล..', 1)
-      .then(() => message.success('บันทึกเรียบร้อยแล้ว', 1))
-      .then(() => message.info('Loading finished is finished', 1));
+      .loading('กำลังบันทึกข้อมูล..', 2)
+      .then(() => message.success('บันทึกเรียบร้อยแล้ว', 2))
+      .then(() => message.info('Loading finished is finished', 2));
   };
   onChangeSelect = (value, record) => {
     confirm({
-      title: 'ยืนยันการเปลี่ยนแปลง​ ?',
+      title: 'ยืนยันการเปลี่ยนแปลง​',
       //content: 'When clicked the OK button, this dialog will be closed after 1 second',
       onOk: () => {
         return new Promise((resolve, reject) => {
           const phoneNum = record.phoneNum;
+          const id = record.id;
           const status = value;
           if (value === "check-out") {
-
             // axios.put(`/updateStatusRec/${phoneNum}`, ({ status }))  //ยังไม่ได้แก้
-            axios.get(`/findCheckInInfoByPhoneNum/${phoneNum}`).then(resp => {
+            axios.get(`/findCheckInInfoById/${id}`).then(resp => {
               console.log(resp);
               const name = resp.data.name;
               const phoneNum = resp.data.phoneNum;
@@ -95,18 +96,17 @@ class TableCheckIn extends React.Component {
               const dateCheckOut = resp.data.dateCheckOut;
               const assignRoom = resp.data.assignRoom;
 
-              axios.post('/AddHistory', ({ name, phoneNum, status, dateCheckIn, dateCheckOut, assignRoom }))
-            });
-            axios.delete(`/deleteCheckInInfoByPhone/${phoneNum}`, ({ status }))
-            axios.delete(`/deleteStatusInfoByPhone/${phoneNum}`, ({ status })).then(resp => {
+              axios.post('/AddHistory', ({ id, name, phoneNum, dateCheckIn, dateCheckOut, status, assignRoom }))
+            })
+            axios.delete(`/deleteCheckInInfoById/${id}`, ({ status }))
+            axios.delete(`/deleteStatusInfoById/${id}`, ({ status })).then(resp => {
               console.log(resp);
               if (resp.status === 200) {
                 resolve();
                 this.success();
                 setTimeout(function () {
                   window.location.reload()
-                }, delayInMilliseconds);
-
+                }, 6000);
               }
             }).catch(e => {
               reject(value = e)
@@ -135,29 +135,33 @@ class TableCheckIn extends React.Component {
 
   }
   onUpdate = (value, record) => {
-    this.success();
-    const phoneNum = record.phoneNum;
-    console.log(record.phoneNum)
-    axios.get(`/findCheckInInfoByPhoneNum/${phoneNum}`).then(resp => {
-      let assignRoomx = resp.data.assignRoom;
-      let assignRoom = assignRoomx + this.state.assignRoomm;
-      axios.put(`/updateAssignRoom/${phoneNum}`, ({ assignRoom }))
-    });
-    // this.setState({
-    //   assignRoom: tmp
-    // })
-    console.log("555555",this.state.assignRoom)
-    const { assignRoom } = this.state
-    setTimeout(function () {
-      window.location.reload()
-    }, delayInMilliseconds);
-    
+    confirm({
+      title: 'ยืนยันการเปลี่ยนแปลง​',
+      content: '',
+      onOk: () => {
+        this.success();
+        const phoneNum = record.phoneNum;
+        console.log(record.phoneNum)
+        axios.get(`/findCheckInInfoByPhoneNum/${phoneNum}`).then(resp => {
+          let assignRoomx = resp.data.assignRoom;
+          let assignRoom = assignRoomx + this.state.assignRoomm;
+          axios.put(`/updateAssignRoom/${phoneNum}`, ({ assignRoom }))
+          window.location.reload()
+        });
+      },
+      onCancel: () => {
+        setTimeout(function () {
+          window.location.reload()
+        }, delayInMilliseconds);
+      }
+    })
   }
 
 
   render() {
     const { size } = this.state;
     const columns = [
+      { title: 'Id', dataIndex: 'id', key: 'Id' },
       { title: 'Name', dataIndex: 'name', key: 'Name' },
       { title: 'Tell', dataIndex: 'phoneNum', key: 'Tell' },
       { title: 'Email', dataIndex: 'email', key: 'email' },
@@ -189,7 +193,7 @@ class TableCheckIn extends React.Component {
           <Select
             mode="multiple"
             size={size}
-             defaultValue={['ห้อง']}
+            defaultValue={['ห้อง']}
             // placeholder="กรุณาใส่ห้อง"
             onChange={(value) => this.handleChangeAssignRoom(value, record)}
             style={{ width: '300' }} >

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import "antd/dist/antd.css";
 import { storage } from '../firebase';
-import { Form, Select, Table, Modal,message } from 'antd';
+import { Form, Select, Table, Modal, message, Icon, Button } from 'antd';
 import firebase from '../firebase';
 import axios from 'axios';
 const { Option } = Select;
-var delayInMilliseconds = 3000; 
+var delayInMilliseconds = 4000;
 const { confirm } = Modal;
 const db = firebase.firestore();
 class TablePayment extends React.Component {
@@ -21,6 +21,7 @@ class TablePayment extends React.Component {
     axios.get('/findAllReceiptInfo').then(resp => {
       resp.data.forEach(element => {
         var temp = {
+          id: element.id,
           name: element.name,
           phoneNum: element.phoneNum,
           price: element.price,
@@ -41,98 +42,102 @@ class TablePayment extends React.Component {
       .then(() => message.success('กำลังบันทึก', 2))
       .then(() => message.info('Loading finished is finished', 2));
   };
+
   onChangeSelect = (value, record) => {
     confirm({
-      title: 'ยืนยันการเปลี่ยนแปลง​ ?',
+      title: 'ยืนยันการเปลี่ยนแปลง​',
       content: '',
       onOk: () => {
         return new Promise((resolve, reject) => {
           const phoneNum = record.phoneNum;
+          const id = record.id
           const status = value;
           if (value === "ชำระมัดจำแล้ว") {
-            axios.put(`/updateStatusReceipt/${phoneNum}`, ({ status }))
-            axios.put(`/updateStatusRec/${phoneNum}`, ({ status }))
-            axios.put(`/updateStatusCus/${phoneNum}`, ({ status })).then(resp => {
+            axios.put(`/updateStatusReceiptById/${id}`, ({ status }))
+            axios.put(`/updateStatusRecById/${id}`, ({ status }))
+            axios.put(`/updateStatusCusById/${id}`, ({ status })).then(resp => {
               console.log(resp);
               if (resp.status === 200) {
                 resolve();
                 this.success();
-                setTimeout(function() {
+                setTimeout(function () {
                   window.location.reload()
-                 }, delayInMilliseconds);
+                }, delayInMilliseconds);
               }
             }).catch(e => {
               reject(value = e)
             })
-            window.location.reload()
+            // window.location.reload()
           }
           else if (value === "check-in") {
-            axios.get(`/findCustomerByPhone/${phoneNum}`).then(resp => {
+            axios.get(`/findCustomerById/${id}`).then(resp => {
               console.log(resp);
-                const name = resp.data.name;
-                const email = resp.data.email;
-                const details = resp.data.details;
-                const dateCheckIn = resp.data.dateCheckIn;
-                const dateCheckOut = resp.data.dateCheckOut;
-                const { assignRoom } = this.state;
-                axios.post('/AddCheckInInfo', ({ name, phoneNum, email, details, dateCheckIn, dateCheckOut, status,assignRoom }))
-              });
-              axios.put(`/updateStatusRec/${phoneNum}`, ({ status }))
-              axios.delete(`/deleteReceiptInfoByPhone/${phoneNum}`)
-              axios.delete(`/deleteCustomerByPhone/${phoneNum}`).then(resp => {
-                console.log("delay");
-                if (resp.status === 200) {
-                  resolve();
-                  this.success();
-                  setTimeout(function() {
-                    window.location.reload()
-                  }, delayInMilliseconds);
-                  
-                }
-              }).catch(e => {
-                reject(value = e)
-              })
+              const id = resp.data.id
+              const name = resp.data.name;
+              const email = resp.data.email;
+              const details = resp.data.details;
+              const dateCheckIn = resp.data.dateCheckIn;
+              const dateCheckOut = resp.data.dateCheckOut;
+              const { assignRoom } = this.state;
               
-            }
-          else if (value === "ไม่เข้าพัก") {
-            //axios.put(`/updateStatusRec/${phoneNum}`, ({ status }))
-            axios.get(`/findCustomerByPhone/${phoneNum}`).then(resp => {
-              console.log(resp);
-                const name = resp.data.name;
-                const phoneNum = resp.data.phoneNum;
-                const dateCheckIn = resp.data.dateCheckIn;
-                const dateCheckOut = resp.data.dateCheckOut;
-                const { assignRoom } = this.state;
-                axios.post('/AddHistory', ({ name, phoneNum, status, dateCheckIn, dateCheckOut, assignRoom }))
-              });
-              axios.delete(`/deleteReceiptInfoByPhone/${phoneNum}`)
-              axios.delete(`/deleteCustomerByPhone/${phoneNum}`).then(resp => {
-                if (resp.status === 200) {
-                  resolve();
-                  this.success();
-                 setTimeout(function() {
-                  window.location.reload()
-                 }, delayInMilliseconds);
-                }
-              }).catch(e => {
-                reject(value = e)
-              })
-              
-        }else if (value === "การชำระเงินไม่ถูกต้อง") {
-          axios.put(`/updateStatusRec/${phoneNum}`, ({ status }))
-          axios.put(`/updateStatusCus/${phoneNum}`, ({ status }))
-          axios.delete(`/deleteReceiptInfoByPhone/${phoneNum}`).then(resp => {
+              axios.post('/AddCheckInInfo', ({id, name, phoneNum, email, details, dateCheckIn, dateCheckOut, status, assignRoom }))
+            });
+            axios.put(`/updateStatusRecById/${id}`, ({ status }))
+            axios.delete(`/deleteReceiptInfoById/${id}`)
+            axios.delete(`/deleteCustomerById/${id}`).then(resp => {
+              console.log("delay");
               if (resp.status === 200) {
                 resolve();
                 this.success();
-                setTimeout(function() {
+                setTimeout(function () {
                   window.location.reload()
-                 }, delayInMilliseconds);
+                }, delayInMilliseconds);
+
+              }
+            }).catch(e => {
+              reject(value = e)
+            })
+
+          }
+          else if (value === "ไม่เข้าพัก") {
+            //axios.put(`/updateStatusRec/${phoneNum}`, ({ status }))
+            axios.get(`/findCustomerById/${id}`).then(resp => {
+              console.log(resp);
+              const name = resp.data.name;
+              const phoneNum = resp.data.phoneNum;
+              const dateCheckIn = resp.data.dateCheckIn;
+              const dateCheckOut = resp.data.dateCheckOut;
+              const { assignRoom } = this.state;
+              axios.post('/AddHistory', ({id, name, phoneNum, status, dateCheckIn, dateCheckOut, assignRoom }))
+            });
+            axios.delete(`/deleteReceiptInfoById/${id}`)
+            axios.delete(`/deleteCustomerById/${id}`).then(resp => {
+              if (resp.status === 200) {
+                resolve();
+                this.success();
+                setTimeout(function () {
+                  window.location.reload()
+                },delayInMilliseconds);
+              }
+            }).catch(e => {
+              reject(value = e)
+            })
+
+          } else if (value === "การชำระเงินไม่ถูกต้อง") {
+            axios.put(`/updateStatusRecById/${id}`, ({ status }))
+            axios.put(`/updateStatusCusById/${id}`, ({ status }))
+            axios.delete(`/deleteReceiptInfoById/${id}`).then(resp => {
+              if (resp.status === 200) {
+                resolve();
+                this.success();
+                setTimeout(function () {
+                  window.location.reload()
+                }, delayInMilliseconds);
               }
             }).catch(e => {
               reject(value = e);
-            })         
-      }
+            })
+          }
           // const tmpAllData = this.state.allData;
           //   tmpAllData.map(element => {
           //     if (element.name === record.name) {
@@ -141,7 +146,7 @@ class TablePayment extends React.Component {
           //     return element
           //   })
           //   this.setState({ allData: tmpAllData })
-          
+
           // 
         }).catch((e) => console.log('ERROR', e));
       },
@@ -150,8 +155,27 @@ class TablePayment extends React.Component {
       },
     });
   };
+
+  onSubmit = (value, record) => {
+    const phoneNum = record.phoneNum
+    confirm({
+      title: 'ยืนยันการเปลี่ยนแปลง​',
+      content: '',
+      okText: 'Yes',
+      okType: 'danger',
+      cancelText: 'No',
+      onOk: () => {
+        axios.delete(`/deleteReceiptInfoByPhone/${phoneNum}`)
+        window.location.reload()
+      },
+      onCancel: () => {
+      }
+    })
+  }
+
   render() {
     const columns = [
+      { title: 'Id', dataIndex: 'id', key: 'Id'},
       { title: 'Name', dataIndex: 'name', key: 'Name' },
       { title: 'Tell', dataIndex: 'phoneNum', key: 'Tell' },
       { title: 'จำนวนเงินที่โอน', dataIndex: 'price', key: 'Price' },
@@ -178,6 +202,12 @@ class TablePayment extends React.Component {
           <Option value="ไม่เข้าพัก">ไม่เข้าพัก</Option>
         </Select>
       },
+      {
+        title: 'ลบข้อมูล',
+        key: 'delete',
+        render: (record) =>
+          <Button onClick={(value) => this.onSubmit(value, record)}><Icon type="delete" style={{ fontSize: '20px' }} /></Button>
+      }
     ];
 
     return (
@@ -186,7 +216,7 @@ class TablePayment extends React.Component {
           <Table
             columns={columns}
             expandedRowRender={(allData) =>
-              <img src={allData.url} ></img>
+              <img style={{ width: '20%', marginLeft: '40%' }} src={allData.url} ></img>
             }
             dataSource={this.state.allData}
           />

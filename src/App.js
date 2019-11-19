@@ -9,34 +9,23 @@ import TableBooking from './admin/TableBooking';
 import TableCheckIn from './admin/TableCheckIn';
 import TablePayment from './admin/TablePayment';
 import FinishBooking from './FinishBooking';
+import FinishPayment from './FinishPayment'
 import Confirm from './Confirm';
 
 function App() {
   return (
     <div className="App">
-       {/* <div>confirm</div> */}
-      <Confirm/> 
       <div>status</div>
        <TableStatus/>
       <div>history</div>
-      
       <TableHistory/> 
       <div>payment</div>
       <TablePayment/> 
       <div>Booking</div>
       <TableBooking/>
-      
-      {/* <TableBooking/> */}
-      {/* <TablePayment/>  */}
+      <div>Check In</div>
       <TableCheckIn/>
-      {/* <FinishBooking/>  */}
-      {/* <ConfirmBooking/> */}
-      {/* <HomePage/> */}
-      {/* {<BookingPage/> } */}
-      {/* <Signin/> */}
-      {/* <Booking/> */}
-      {/* <ImageUpload/>*/}
-    
+      {/* <FinishPayment/> */}
     </div>
   );
 }
