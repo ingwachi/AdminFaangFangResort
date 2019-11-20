@@ -25,8 +25,8 @@ class HistoryInfoShow extends Component {
                             <Menu.Item key="3"><Link to='/CheckInInfoShow'>ข้อมูลการเข้าพัก</Link></Menu.Item>
                             <Menu.Item key="4"><Link to='/HistoryInfoShow'>ประวัติลูกค้า</Link></Menu.Item>
                             <Menu.Item key="5"><Link to='/StatusRecShow'>สถานะของลูกค้า</Link></Menu.Item>
-                            <Menu.Item key="6">แก้ไขข้อมูลห้องพัก</Menu.Item>
-                            <Menu.Item key="7" style={{marginLeft: '40%'}}><Link to="/">Logout</Link></Menu.Item>
+                            <Menu.Item key="6"><Link to='/ManageRoom'>แก้ไขข้อมูลห้องพัก</Link></Menu.Item>
+                            <Menu.Item key="7" style={{marginLeft: '30%'}}><Link to="/">Logout</Link></Menu.Item>
                         </Menu>
                     </Header>
                     <Content style={{ padding: '0 50px' }}>

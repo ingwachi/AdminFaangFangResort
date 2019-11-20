@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Button } from 'antd';
+import { Layout, Menu, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
-import TableCheckIn from '../Table/TableCheckIn';
 import '../css/CustomerInfoShow.css'
+import ManageRoom from '../ManageRoom/ManageRoom';
 
 const { Header, Content, Footer } = Layout;
 
-class CheckInInfoShow extends Component {
+class ManageRoomView extends Component {
 
     render() {
         return (
@@ -17,7 +17,7 @@ class CheckInInfoShow extends Component {
                         <Menu
                             theme="dark"
                             mode="horizontal"
-                            defaultSelectedKeys={['3']}
+                            defaultSelectedKeys={['6']}
                             style={{ lineHeight: '64px' }}
                         >
                             <Menu.Item key="1"><Link to='/CustomerInfoShow'>ข้อมูลการจอง</Link></Menu.Item>
@@ -30,7 +30,7 @@ class CheckInInfoShow extends Component {
                         </Menu>
                     </Header>
                     <Content style={{ padding: '0 50px' }}>
-                        <div style={{ background: '#fff', padding: 24, height: 650 }}><TableCheckIn /></div>
+                        <div style={{ background: '#fff', padding: 24, height: 900 }}><ManageRoom/></div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>FaangFang Resort</Footer>
                 </Layout>
@@ -39,4 +39,4 @@ class CheckInInfoShow extends Component {
     }
 }
 
-export default CheckInInfoShow
+export default ManageRoomView

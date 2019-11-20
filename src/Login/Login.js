@@ -12,6 +12,9 @@ class Login extends React.Component {
                 message.success('Login success');
                 console.log('Successfully Logged In: ', data.user.uid);
                 //Go to next Page
+                setTimeout(function () {
+                    window.location.href = '/CustomerInfoShow'
+                }, 2000);
             })
             .catch((err) => {
                 message.error('Login Failed');
@@ -27,9 +30,7 @@ class Login extends React.Component {
             if (!err) {
                 console.log('Received values of form: ', values);
                 this.login(values.email, values.password);
-                setTimeout(function () {
-                    window.location.href = '/CustomerInfoShow'
-                }, 2000);
+
             }
         });
     };

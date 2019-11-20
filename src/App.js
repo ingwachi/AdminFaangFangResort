@@ -8,6 +8,7 @@ import ReceiptInfoShow from './ShowData/ReceiptInfoShow';
 import CheckInInfoShow from './ShowData/CheckInInfoShow';
 import HistoryInfoShow from './ShowData/HistoryInfoShow';
 import StatusRecShow from './ShowData/StatusRecShow';
+import ManageRoom from './ShowData/ManageRoomView';
 
 import Login from './Login/Login'
 
@@ -22,7 +23,8 @@ function App() {
           <Route path='/CheckInInfoShow' component={CheckInInfoShow} />
           <Route path='/HistoryInfoShow' component={HistoryInfoShow} />
           <Route path='/StatusRecShow' component={StatusRecShow} />
-        </Switch>
+          <Route path='/ManageRoom' component={ManageRoom}/>
+         </Switch>
       </Router>
     </div>
   );
