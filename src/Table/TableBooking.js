@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import firebase from '../FireBase/firebase'
 import 'antd/dist/antd.css';
-import { Form, Table, Tag, Spin, TreeSelect, InputNumber, Select, Popconfirm, Modal, message } from 'antd';
+import { Form, Table, Select, Modal, message } from 'antd';
 import axios from 'axios';
 const { Option } = Select;
 const db = firebase.firestore();
@@ -13,16 +13,15 @@ class TableBooking extends React.Component {
     super(props)
     this.state = {
       allData: [],
-      details: "หวัดดี"
+      details: "-"
 
     }
   }
   componentDidMount() {
     let wholeData = [];
-    axios.get('/findAllCustomer').then(resp => {
+    axios.get('/findAllBookingInfo').then(resp => {
       resp.data.forEach(element => {
         var str = ""
-
         const phoneNum = element.phoneNum;
         const id = element.id
         if (element.reserveA > 0) {
@@ -81,19 +80,20 @@ class TableBooking extends React.Component {
           const id = record.id;
           if (value === "ไม่เข้าพัก") {
             //axios.put(`/updateStatusRec/${phoneNum}`, ({ status }))
-            axios.get(`/findCustomerById/${id}`).then(resp => {
+            axios.get(`/findBookingInfoById/${id}`).then(resp => {
               console.log(resp);
               const id = resp.data.id
               const name = resp.data.name;
+              const email = resp.data.email;
               const phoneNum = resp.data.phoneNum;
               const dateCheckIn = resp.data.dateCheckIn;
               const dateCheckOut = resp.data.dateCheckOut;
               const { assignRoom } = this.state;
-              axios.post('/AddHistory', ({ id, name, phoneNum, status, dateCheckIn, dateCheckOut, assignRoom }))
+              axios.post('/AddHistory', ({ id, name, phoneNum,email, status, dateCheckIn, dateCheckOut, assignRoom }))
             });
-            axios.delete(`/deleteReceiptInfoById/${id}`)
+           axios.delete(`/deleteReceiptInfoById/${id}`)
             axios.delete(`/deleteStatusInfoById/${id}`)
-            axios.delete(`/deleteCustomerById/${id}`).then(resp => {
+            axios.delete(`/deleteBookingInfoById/${id}`).then(resp => {
               if (resp.status === 200) {
                 resolve();
                 this.success();
@@ -133,48 +133,28 @@ class TableBooking extends React.Component {
           placeholder={text}
           onChange={(value) => this.onChangeSelect(value, record)}
           optionFilterProp="children"
-          //   onChange={onChange}
-          //onFocus={onFocus}
-          //   onBlur={onBlur}
-          //   onSearch={onSearch}
+
           filterOption={(input, option) =>
             option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
-          {/* <Option value="จองที่พัก">จองที่พัก</Option> */}
-          {/* <Option value="ชำระมัดจำ">ชำระมัดจำ</Option> */}
-          {/* <Option value="check-in">check-in</Option>
-              <Option value="check-out">check-out</Option> */}
+
           <Option value="ไม่เข้าพัก">ไม่เข้าพัก</Option>
         </Select>
-
-
       },
-
-
     ];
-
     return (
       <div>
-        <Table
+        <Table 
           columns={columns}
           expandedRowRender={(allData) =>
             <p style={{ margin: 10 }}>{allData['details']} </p>
-
           }
           dataSource={this.state.allData}
         />
-
       </div>
-
     );
   }
-
-
-
-
-
-
 }
 
 

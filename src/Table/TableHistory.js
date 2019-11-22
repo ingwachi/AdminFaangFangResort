@@ -16,7 +16,6 @@ class TableHistory extends React.Component {
 
   }
   componentDidMount() {
-
     let wholeData = [];
     axios.get('/findAllHistory').then(resp => {
       resp.data.forEach(element => {

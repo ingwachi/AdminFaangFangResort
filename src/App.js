@@ -10,7 +10,13 @@ import HistoryInfoShow from './ShowData/HistoryInfoShow';
 import StatusRecShow from './ShowData/StatusRecShow';
 import ManageRoom from './ShowData/ManageRoomView';
 
+import DailyPaid from './Report/DailyPaid';
+import DailyReport from './Report/DailyReport';
+import DailyNotPaid from './Report/DailyNotPaid';
+import TableReport from './ShowData/ReportShow';
+
 import Login from './Login/Login'
+import CustomerInfoView from './ShowData/CustomerInfoView';
 
 function App() {
   return (
@@ -18,12 +24,17 @@ function App() {
       <Router>
         <Switch>
           <Route exact path='/' component={Login}/>
-          <Route exact path='/CustomerInfoShow' component={CustomerInfoShow} />
+          <Route path='/BookingInfoShow' component={CustomerInfoShow} />
+          <Route path='/CustomerInfoShow' component={CustomerInfoView} />
           <Route path='/ReceiptInfoShow' component={ReceiptInfoShow} />
           <Route path='/CheckInInfoShow' component={CheckInInfoShow} />
           <Route path='/HistoryInfoShow' component={HistoryInfoShow} />
           <Route path='/StatusRecShow' component={StatusRecShow} />
           <Route path='/ManageRoom' component={ManageRoom}/>
+          <Route path='/DailyReport' component={DailyReport}/>
+          <Route path='/DailyNotPaid' component={DailyNotPaid}/>
+          <Route path='/DailyPaid' component={DailyPaid}/>
+          <Route path='/ReportShow' component={TableReport}/>
          </Switch>
       </Router>
     </div>

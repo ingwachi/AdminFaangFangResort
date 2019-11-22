@@ -34,7 +34,7 @@ class TableCheckIn extends React.Component {
           phoneNum: element.phoneNum,
           email: element.email,
           details: element.details,
-          dateCheckIn: element.dateCheckIn,
+          dateCheckin: element.dateCheckin,
           dateCheckOut: element.dateCheckOut,
           status: element.status,
           assignRoom: element.assignRoom,
@@ -91,11 +91,17 @@ class TableCheckIn extends React.Component {
               console.log(resp);
               const name = resp.data.name;
               const phoneNum = resp.data.phoneNum;
-              const dateCheckIn = resp.data.dateCheckIn;
+              const email = resp.data.email;
+              const dateCheckIn = resp.data.dateCheckin;
               const dateCheckOut = resp.data.dateCheckOut;
               const assignRoom = resp.data.assignRoom;
-
-              axios.post('/AddHistory', ({ id, name, phoneNum, dateCheckIn, dateCheckOut, status, assignRoom }))
+              const reserveA = resp.data.reserveA;
+              const reserveB = resp.data.reserveB;
+              const reserveC = resp.data.reserveC;
+              const reserveD = resp.data.reserveD;
+              const reserveE = resp.data.reserveE;
+              const reserveF = resp.data.reserveF;
+              axios.post('/AddHistory', ({ id, name, email,phoneNum, dateCheckIn, dateCheckOut, status, assignRoom,reserveA,reserveB,reserveC,reserveD,reserveE,reserveF }))
               axios.delete(`/deleteCheckInInfoById/${id}`, ({ status }))
             })
             axios.delete(`/deleteStatusInfoById/${id}`, ({ status })).then(resp => {
@@ -166,7 +172,7 @@ class TableCheckIn extends React.Component {
       { title: 'Tell', dataIndex: 'phoneNum', key: 'Tell' },
       { title: 'Email', dataIndex: 'email', key: 'email' },
       { title: 'จำนวนห้องที่จอง', dataIndex: 'details', key: 'details' },
-      { title: 'วันที่เช็คอิน', dataIndex: 'dateCheckIn', key: 'dateCheckOut' },
+      { title: 'วันที่เช็คอิน', dataIndex: 'dateCheckin', key: 'dateCheckOut' },
       { title: 'วันที่เช็คเอ้าท์', dataIndex: 'dateCheckOut', key: 'DateCheckOut', },
       //{ title: 'Status', dataIndex: 'status', key: 'status' },
       {

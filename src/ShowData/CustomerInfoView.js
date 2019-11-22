@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
+import TableCustomer from '../Table/TableCustomer'
 import '../css/CustomerInfoShow.css'
-import ManageRoom from '../ManageRoom/ManageRoom';
 
 const { Header, Content, Footer } = Layout;
 
-class ManageRoomView extends Component {
+class CustomerInfoView extends Component {
 
     render() {
         return (
@@ -17,10 +17,10 @@ class ManageRoomView extends Component {
                         <Menu
                             theme="dark"
                             mode="horizontal"
-                            defaultSelectedKeys={['8']}
+                            defaultSelectedKeys={['6']}
                             style={{ lineHeight: '64px' }}
                         >
-                            <Menu.Item key="1"><Link to='/BookingInfoShow'>ข้อมูลการจอง</Link></Menu.Item>
+                           <Menu.Item key="1"><Link to='/BookingInfoShow'>ข้อมูลการจอง</Link></Menu.Item>
                             <Menu.Item key="2"><Link to='/ReceiptInfoShow'>ตรวจสอบการโอนเงิน</Link></Menu.Item>
                             <Menu.Item key="3"><Link to='/CheckInInfoShow'>ข้อมูลการเข้าพัก</Link></Menu.Item>
                             <Menu.Item key="4"><Link to='/HistoryInfoShow'>ประวัติลูกค้า</Link></Menu.Item>
@@ -31,7 +31,7 @@ class ManageRoomView extends Component {
                         </Menu>
                     </Header>
                     <Content style={{ padding: '0 50px' }}>
-                        <div style={{ background: '#fff', padding: 24, height: 900 }}><ManageRoom/></div>
+                        <div style={{ background: '#fff', padding: 24, height: 650 }}><TableCustomer/></div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>FaangFang Resort</Footer>
                 </Layout>
@@ -40,4 +40,4 @@ class ManageRoomView extends Component {
     }
 }
 
-export default ManageRoomView
+export default CustomerInfoView

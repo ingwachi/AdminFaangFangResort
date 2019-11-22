@@ -56,18 +56,13 @@ class TableStatus extends React.Component {
       { title: 'Name', dataIndex: 'name', key: 'Name' },
       { title: 'Tell', dataIndex: 'phoneNum', key: 'Tell' },
       { title: 'Status', dataIndex: 'status', key: 'status' },
-      {
-        title: 'ลบข้อมูล',
-        key: 'delete',
-        render: (record) =>
-          <Button onClick={(value) => this.onSubmit(value, record)}><Icon type="delete" style={{ fontSize: '20px' }} /></Button>
-      }
+
     ];
 
     return (
       <div>
         <div>
-          <Table
+          <Table 
             columns={columns}
             dataSource={this.state.allData}
           />
