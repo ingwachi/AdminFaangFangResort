@@ -31,7 +31,7 @@ class CheckInInfoShow extends Component {
                         </Menu>
                     </Header>
                     <Content style={{ padding: '0 50px' }}>
-                        <div style={{ background: '#fff', padding: 24, height: 650 }}><TableCheckIn /></div>
+                        <div style={{ background: '#fff', padding: 24, height: 800 }}><TableCheckIn /></div>
                     </Content>
                     <Footer style={{ textAlign: 'center' }}>FaangFang Resort</Footer>
                 </Layout>

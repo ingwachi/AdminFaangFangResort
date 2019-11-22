@@ -6,22 +6,27 @@ import axios from 'axios';
 const { RangePicker } = DatePicker;
 var dateList = [];
 const dateFormat = 'DD/MM/YYYY';
-
-
+let count = 0;
 class DailyReport extends Component {
-
     constructor(props) {
         super(props)
         this.state = {
             allData: [],
+            dateStart: '',
+            dateEnd: '',
+            show: 'none'
         }
     }
+    onClick = e => {
 
-    onClick = e => {   
+        this.setState({
+            show: ''
+        })
         var wholeData = []
         dateList.forEach(dateCheckin => {
             console.log(dateCheckin)
             axios.get(`findAllCheckInInfoByDateCheckin/${dateCheckin}`).then(resp => {
+                console.log("eiei")
                 resp.data.forEach(element => {
                     var temp = {
                         id: element.id,
@@ -30,15 +35,17 @@ class DailyReport extends Component {
                         email: element.email,
                         dateCheckIn: element.dateCheckin,
                         dateCheckOut: element.dateCheckOut
-                      }
-                      console.log("temp", temp)
-                      wholeData.push(temp)
-                      console.log(wholeData)
-                      this.setState({
+                    }
+                    console.log("temp", temp)
+                    wholeData.push(temp)
+                    console.log(wholeData)
+                    count++;
+                    this.setState({
                         allData: wholeData
+
                     })
                 })
-                
+
             })
         })
     }
@@ -58,6 +65,10 @@ class DailyReport extends Component {
         var d = myDateString;
         this.calDiff(date1, date2)
         console.log(dateList)
+        this.setState({
+            dateStart: dateList[0],
+            dateEnd: dateList[dateList.length - 1]
+        })
     }
 
     calDiff = (date1, date2) => {
@@ -91,16 +102,22 @@ class DailyReport extends Component {
         return (
             <div>
                 <RangePicker onChange={this.onChangeDate} format={dateFormat} />
-                <Button type="primary" style={{marginLeft: '3%'}} onClick={(e) => this.onClick(e)}>Search</Button>
-                <Table
-                    columns={columns}
-                    expandedRowRender={(allData) =>
-                        <p style={{ margin: 10 }}>{allData['details']} </p>
-
-                    }
-                    dataSource={this.state.allData}
-                />
-                
+                <Button type="primary" shape="circle" icon="search" style={{ marginLeft: '3%' }} onClick={(e) => this.onClick(e)} />
+                <div style={{display: this.state.show}} >
+                    <div style={{ textAlign: 'left', marginTop: '3%', fontSize: '16px', marginBottom: '3%' }}>
+                        <div >รายงานชื่อลูกค้าที่จะ check-in ในแต่ละวัน</div>
+                        <div>DateFrom {this.state.dateStart} to {this.state.dateEnd} </div>
+                    </div>
+                    {/* <Button type="primary" >Search</Button> */}
+                    <Table
+                        columns={columns}
+                        // expandedRowRender={(allData) =>
+                        //     //<p style={{ margin: 10 }}>{allData['details']} </p>
+                        // }
+                        dataSource={this.state.allData}
+                    />
+                    <div style={{ textAlign: 'left', marginTop: '3%', fontSize: '16px', marginBottom: '3%' }} > รวม {count} รายการ</div>
+                </div>
             </div>
         )
     }

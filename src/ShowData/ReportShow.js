@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Button } from 'antd';
 import { Link } from 'react-router-dom';
 import TableReportAmountRoom from '../Report/TableReportAmountRoom';
 import TableDailyReport from '../Report/DailyReport';
@@ -9,9 +9,29 @@ const { Header, Content, Footer } = Layout;
 
 class ReceiptInfoShow extends Component {
 
-    state={
-        showDailyReport: '',
-        showMonthReport: 'none'
+    state = {
+        showDailyReport: 'none',
+        showMonthReport: '',
+        dailyButton: '',
+        monthlyButton: 'none'
+    }
+
+    dayOnClick = e => {
+        this.setState({
+            showDailyReport: '',
+            showMonthReport: 'none',
+            dailyButton: 'none',
+            monthlyButton: ''
+        })
+    }
+
+    monthOnClick = e => {
+        this.setState({
+            showDailyReport: 'none',
+            showMonthReport: '',
+            dailyButton: '',
+            monthlyButton: 'none'
+        })
     }
 
     render() {
@@ -26,7 +46,7 @@ class ReceiptInfoShow extends Component {
                             defaultSelectedKeys={['7']}
                             style={{ lineHeight: '64px' }}
                         >
-                           <Menu.Item key="1"><Link to='/BookingInfoShow'>ข้อมูลการจอง</Link></Menu.Item>
+                            <Menu.Item key="1"><Link to='/BookingInfoShow'>ข้อมูลการจอง</Link></Menu.Item>
                             <Menu.Item key="2"><Link to='/ReceiptInfoShow'>ตรวจสอบการโอนเงิน</Link></Menu.Item>
                             <Menu.Item key="3"><Link to='/CheckInInfoShow'>ข้อมูลการเข้าพัก</Link></Menu.Item>
                             <Menu.Item key="4"><Link to='/HistoryInfoShow'>ประวัติลูกค้า</Link></Menu.Item>
@@ -37,12 +57,14 @@ class ReceiptInfoShow extends Component {
                         </Menu>
                     </Header>
                     <Content style={{ padding: '0 50px' }}>
-                        <div style={{ background: '#fff', padding: 24, height: 650 }}>
-                            <div style={{display: this.state.showMonthReport}} >
-                            <TableReportAmountRoom />
+                        <div style={{ background: '#fff', padding: 24, height: 1000 }}>
+                            <Button style={{ marginLeft: '70%', display: this.state.dailyButton }} onClick={(e) => this.dayOnClick(e)}>รายงานชื่อลูกค้าที่จะ check-in ในแต่ละวัน</Button>
+                            <Button style={{ marginLeft: '70%', display: this.state.monthlyButton }} onClick={(e) => this.monthOnClick(e)} >รายงานจำนวนห้องพักที่มีผู้เข้าพักในแต่ละเดือน</Button>
+                            <div style={{ display: this.state.showMonthReport }} >
+                                <TableReportAmountRoom />
                             </div>
-                            <div style={{display: this.state.showDailyReport}}>
-                            <TableDailyReport style={{display: this.state.showDailyReport}} /> 
+                            <div style={{ display: this.state.showDailyReport }}>
+                                <TableDailyReport style={{ display: this.state.showDailyReport }} />
                             </div>
                         </div>
                     </Content>
